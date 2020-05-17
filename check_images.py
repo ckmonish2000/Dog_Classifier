@@ -34,7 +34,7 @@ from print_functions_for_lab_checks import *
 def main():
     # TODO: 1. Define start_time to measure total program runtime by
     # collecting start time
-    start_time = None
+    start_time = time.time()
     
     # TODO: 2. Define get_input_args() function to create & retrieve command
     # line arguments
@@ -67,11 +67,11 @@ def main():
 
     # TODO: 1. Define end_time to measure total program runtime
     # by collecting end time
-    end_time = None
+    end_time = time.time()
 
     # TODO: 1. Define tot_time to computes overall runtime in
     # seconds & prints it in hh:mm:ss format
-    tot_time = None
+    tot_time = start_time-end_time
     print("\n** Total Elapsed Runtime:", tot_time)
 
 
@@ -98,7 +98,11 @@ def get_input_args():
     Returns:
      parse_args() -data structure that stores the command line arguments object  
     """
-    pass
+    parser=argparse.ArgumentParser()
+    parser.add_argument('-d','--dir',type=str,help='dir path',required=True)
+    parser.add_argument('-a','--arch',type=str,help='model architecture',required=True)
+    parser.add_argument('-df','--dogfile',type=str,help='dog file',const='dognames.txt')
+    return parser.parse_args()
 
 
 def get_pet_labels():

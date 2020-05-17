@@ -1,3 +1,4 @@
+import torch
 from os import listdir
 import classifier
 path='pet_images/'
