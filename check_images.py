@@ -99,13 +99,13 @@ def get_input_args():
      parse_args() -data structure that stores the command line arguments object  
     """
     parser=argparse.ArgumentParser()
-    parser.add_argument('-d','--dir',type=str,help='dir path',required=True)
-    parser.add_argument('-a','--arch',type=str,help='model architecture',required=True)
-    parser.add_argument('-df','--dogfile',type=str,help='dog file',const='dognames.txt')
+    parser.add_argument('-d','--dir',type=str,help='dir path',default="pet_images/")
+    parser.add_argument('-a','--arch',type=str,help='model architecture',default='vgg')
+    parser.add_argument('-df','--dogfile',type=str,help='dog file',default='dognames.txt')
     return parser.parse_args()
 
 
-def get_pet_labels():
+def get_pet_labels(img_dir):
     """
     Creates a dictionary of pet labels based upon the filenames of the image 
     files. Reads in pet filenames and extracts the pet image labels from the 
@@ -118,7 +118,19 @@ def get_pet_labels():
      petlabels_dic - Dictionary storing image filename (as key) and Pet Image
                      Labels (as value)  
     """
-    pass
+    dirs=listdir(img_dir)
+    keys=[]
+    values=[]
+    dic=dict()
+    for i in range(0,len(dirs),1):
+        split=dirs[i].split(".")
+        keys.append(split[0])
+        values.append(f"{img_dir}{dirs[i]}")
+    for i,j in zip(keys,values):
+        dic[i]=j
+        
+    
+    return dic
 
 
 def classify_images():
