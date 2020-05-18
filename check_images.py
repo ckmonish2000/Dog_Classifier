@@ -123,14 +123,24 @@ def get_pet_labels(img_dir):
     values=[]
     dic=dict()
     for i in range(0,len(dirs),1):
-        split=dirs[i].split(".")
-        keys.append(split[0])
-        values.append(f"{img_dir}{dirs[i]}")
-    for i,j in zip(keys,values):
-        dic[i]=j
+        keys.append(f"{dirs[i]}")
+        label=""
+        lower=keys[i].lower()
+        word_list=lower.split("_")        
+        for word in word_list:
+            if word.isalpha():
+                label+=word+" "
+        label=label.strip()
+        values.append(label)
         
-    
+        
+    for i in range(0,len(keys),1):
+        if keys[i] not in dic:
+            dic[keys[i]]=values[i]
+        else:
+            print("** Warning: Key=", keys[i],"already exists in pet_dic with value =", dic[keys[i]])
     return dic
+
 
 
 def classify_images():
