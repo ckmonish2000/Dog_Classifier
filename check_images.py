@@ -195,7 +195,7 @@ def classify_images(img_dir,petlabel,model):
                 
 
 
-def adjust_results4_isadog():
+def adjust_results4_isadog(result_dic,dogfile):
     """
     Adjusts the results dictionary to determine if classifier correctly 
     classified images 'as a dog' or 'not a dog' especially when not a match. 
@@ -222,8 +222,33 @@ def adjust_results4_isadog():
                 text file's name)
     Returns:
            None - results_dic is mutable data type so no return needed.
-    """           
-    pass
+    """      
+    dogname_dic=dict()
+    with open(dogfile,'r') as f:
+        line=f.readline()
+        
+    while line !="":
+        line=line.rstrip()
+        
+        if line not in dogname_dic:
+            dogname_dic[line]=1
+        else:
+            print(f"{line} is already in the dic")
+        
+        line=f.readline()
+        
+    for key in result_dic:
+        if result_dic[key][0] in dogname_dic:
+            if result_dic[key][1] in dogname_dic:
+                results_dic[key].extend((1, 1))
+        else:
+            results_dic[key].extend((1, 0))
+        if result_dic[key][0] not in dogname_dic:
+            if result_dic[key][1] in dogname_dic:
+                result_dic[key].extend((0,1))
+        else:
+            result_dic[key].extend((0,0))
+            
 
 
 def calculates_results_stats():
