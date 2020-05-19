@@ -143,7 +143,7 @@ def get_pet_labels(img_dir):
 
 
 
-def classify_images():
+def classify_images(img_dir,petlabel,model):
     """
     Creates classifier labels with classifier function, compares labels, and 
     creates a dictionary containing both labels and comparison of them to be
@@ -168,7 +168,31 @@ def classify_images():
                     idx 2 = 1/0 (int)   where 1 = match between pet image and 
                     classifer labels and 0 = no match between labels
     """
-    pass
+    dic=dict()
+    
+    for i in petlabel:
+        model=classifier(img_dir+i, model)
+        model=model.lower()
+        model=model.strip()
+        modelList=model.split(",")
+        
+        label=petlabel[i]
+        
+        if label in modelList:
+            dic[i]=[label,model,1]
+        else:
+            found=False
+            
+            for term in modelList:
+                word=term.split(" ")
+                if (not found) and label in word:
+                    found=True
+                    dic[i]=[label,model,1]
+                    break
+            if (not found):
+                dic[i]=[label,model,0]
+    return dic
+                
 
 
 def adjust_results4_isadog():
